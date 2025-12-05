@@ -806,6 +806,22 @@
         });
       });
     });
+
+    // Lenis smooth scrolling (optional)
+    safe(() => {
+      if (typeof window === 'undefined' || !window.Lenis) return;
+      const lenis = new window.Lenis({
+        lerp: 0.08,
+        smoothWheel: true,
+      });
+
+      const raf = (time) => {
+        lenis.raf(time);
+        window.requestAnimationFrame(raf);
+      };
+
+      window.requestAnimationFrame(raf);
+    });
   })();
 
 })();
