@@ -58,11 +58,22 @@
       }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Poppins font (clean, geometric sans for UI) -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <!-- Poppins font (non-blocking load) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    >
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      />
+    </noscript>
     <!-- JSZip for creating ZIP downloads of compressed images (deferred to avoid render blocking) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     <link rel="stylesheet" href="assests/css/style.css" />
@@ -355,7 +366,7 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-center justify-start gap-3">
-                  <h4 id="feat-formats" class="font-semibold">Multiple formats</h4>
+                  <h3 id="feat-formats" class="font-semibold">Multiple formats</h3>
                   <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Core</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-2">Export to WebP, AVIF, JPEG, PNG, TIFF and more — client or server-side.</p>
@@ -374,7 +385,7 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-center justify-start gap-3">
-                  <h4 id="feat-batch" class="font-semibold">Batch processing</h4>
+                  <h3 id="feat-batch" class="font-semibold">Batch processing</h3>
                   <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Pro</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-2">Upload many images and compress them in one go — download individually or as a ZIP.</p>
@@ -393,7 +404,7 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-center justify-start gap-3">
-                  <h4 id="feat-preview" class="font-semibold">Preview & control</h4>
+                  <h3 id="feat-preview" class="font-semibold">Preview & control</h3>
                   <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Interactive</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-2">Compare before/after previews and adjust quality for perfect balance.</p>
@@ -412,7 +423,7 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-center justify-start gap-3">
-                  <h4 id="feat-privacy" class="font-semibold">Privacy-first</h4>
+                  <h3 id="feat-privacy" class="font-semibold">Privacy-first</h3>
                   <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Local</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-2">Files are processed locally by default — server conversion is optional for advanced formats.</p>
@@ -431,7 +442,7 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-center justify-start gap-3">
-                  <h4 id="feat-server" class="font-semibold">Server conversion</h4>
+                  <h3 id="feat-server" class="font-semibold">Server conversion</h3>
                   <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Optional</span>
                 </div>
                 <p class="text-sm text-gray-400 mt-2">Optional server-side conversion for RAW, PSD and other advanced inputs when needed.</p>
@@ -660,7 +671,7 @@
             </div>
 
             <div>
-              <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Legal</h4>
+              <p class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Legal</p>
               <ul class="text-sm text-gray-400 space-y-1.5">
                 <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
                 <li><a href="terms.html" class="hover:text-white">Terms</a></li>
