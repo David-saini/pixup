@@ -584,11 +584,22 @@
           });
         });
 
+        let resizeScheduled = false;
         const sync = () => {
           const nav = document.querySelector('header');
           if (nav) document.body.style.paddingTop = nav.getBoundingClientRect().height + 'px';
+          resizeScheduled = false;
         };
-        window.addEventListener('resize', sync);
+        const onResize = () => {
+          if (resizeScheduled) return;
+          resizeScheduled = true;
+          if (window.requestAnimationFrame) {
+            window.requestAnimationFrame(sync);
+          } else {
+            setTimeout(sync, 16);
+          }
+        };
+        window.addEventListener('resize', onResize);
         window.addEventListener('load', sync);
       }
     });

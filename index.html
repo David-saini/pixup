@@ -63,8 +63,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- JSZip for creating ZIP downloads of compressed images -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- JSZip for creating ZIP downloads of compressed images (deferred to avoid render blocking) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     <link rel="stylesheet" href="assests/css/style.css" />
     <!-- Favicons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -108,8 +108,9 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="max-w-6xl mx-auto px-7 mt-16 mb-12 text-gray-200">
+    <main id="main-content" role="main">
+      <!-- Hero Section -->
+      <section id="hero" class="max-w-6xl mx-auto px-7 mt-16 mb-12 text-gray-200">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <p class="inline-flex items-center text-xs font-medium uppercase tracking-wide text-indigo-300 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-3 py-1 mb-3">
@@ -159,9 +160,9 @@
           </div>
         </div>
       </div>
-    </section>
+      </section>
 
-    <div id="compressor" class="max-w-6xl mx-auto px-7 mb-12 pt-4 md:pt-6">
+      <div id="compressor" class="max-w-6xl mx-auto px-7 mb-12 pt-4 md:pt-6">
       <!-- Main Card -->
       <div class="card-bg rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-[463px] h-auto">
         <!-- Left Panel -->
@@ -281,10 +282,10 @@
           </div>
         </div>
       </div>
-    </div>
+      </div>
 
-    <!-- About Us -->
-    <section id="about" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <!-- About Us -->
+      <section id="about" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
       <div class="bg-gray-900/40 p-8 rounded-2xl theme-panel">
         <div class="mb-6 text-center">
           <h2 class="text-3xl md:text-4xl font-semibold">About Us</h2>
@@ -331,10 +332,10 @@
           </div>
         </div>
       </div>
-    </section>
+      </section>
 
-    <!-- Features section -->
-    <section id="features" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <!-- Features section -->
+      <section id="features" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
       <div class="bg-gray-900/40 p-8 rounded-2xl theme-panel">
         <div class="mb-6 text-center">
           <h2 class="text-3xl md:text-4xl font-semibold">Features</h2>
@@ -442,10 +443,10 @@
           </article>
         </div>
       </div>
-    </section>
+      </section>
 
-    <!-- How It Works - Roadmap (enhanced) -->
-    <section id="how-it-works" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <!-- How It Works - Roadmap (enhanced) -->
+      <section id="how-it-works" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
       <div class="bg-gradient-to-br from-gray-900/50 via-gray-800/40 to-gray-900/40 pr-8 py-8 pl-5 rounded-2xl theme-panel">
         <div class="mb-6 text-center">
           <h2 class="text-3xl md:text-4xl font-semibold">How it works</h2>
@@ -567,7 +568,7 @@
         </div>
 
       </div>
-    </section>
+      </section>
 
       <!-- FAQs -->
       <section id="faqs" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
@@ -630,6 +631,7 @@
           </div>
         </div>
       </section>
+    </main>
 
     <!-- Site Footer -->
     <footer class="site-footer mt-12 border-t border-gray-800 text-gray-300">
@@ -647,7 +649,7 @@
           <!-- Right box: navigation columns with space-between -->
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 md:gap-10 ">
             <div>
-              <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Quick links</h4>
+              <p class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Quick links</p>
               <ul class="text-sm text-gray-400 space-y-1.5">
                 <li><a href="#hero" class="hover:text-white">Home</a></li>
                 <li><a href="#about" class="hover:text-white">About</a></li>
@@ -673,6 +675,6 @@
       </div>
     </footer>
 
-    <script src="js/App.js"></script>
+    <script src="js/App.js" defer></script>
   </body>
 </html>
