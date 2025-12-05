@@ -806,26 +806,6 @@
         });
       });
     });
-
-    // Lenis smooth scrolling (configuration as requested)
-    safe(() => {
-      if (typeof window === 'undefined' || !window.Lenis) return;
-
-      const lenis = new window.Lenis({
-        lerp: 0.3,
-        wheelMultiplier: 1,
-        gestureOrientation: 'vertical',
-        normalizeWheel: false,
-        smoothTouch: false,
-      });
-
-      function raf(time) {
-        lenis.raf(time);
-        window.requestAnimationFrame(raf);
-      }
-
-      window.requestAnimationFrame(raf);
-    });
   })();
 
 })();
