@@ -807,20 +807,22 @@
       });
     });
 
-    // Lenis smooth scrolling (optional, kept very light/subtle)
+    // Lenis smooth scrolling (configuration as requested)
     safe(() => {
       if (typeof window === 'undefined' || !window.Lenis) return;
+
       const lenis = new window.Lenis({
-        // Higher lerp = zyada responsive, kam floaty
-        lerp: 0.2,
-        smoothWheel: true,
+        lerp: 0.3,
+        wheelMultiplier: 1,
+        gestureOrientation: 'vertical',
+        normalizeWheel: false,
         smoothTouch: false,
       });
 
-      const raf = (time) => {
+      function raf(time) {
         lenis.raf(time);
         window.requestAnimationFrame(raf);
-      };
+      }
 
       window.requestAnimationFrame(raf);
     });
