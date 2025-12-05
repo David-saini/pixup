@@ -563,11 +563,12 @@
   (function initExtras(){
     const safe = fn => { try { fn(); } catch (e) { console.warn('initExtras error', e); } };
 
-    // Mobile menu and body padding
+    // Mobile menu
     safe(() => {
       const toggle = document.getElementById('navToggle');
       const menu = document.getElementById('mobileMenu');
       if (toggle && menu) {
+
         // open / close menu on hamburger click with smooth transition
         toggle.addEventListener('click', () => {
           menu.classList.toggle('mobile-menu-open');
@@ -583,24 +584,6 @@
             document.body.classList.remove('nav-open');
           });
         });
-
-        let resizeScheduled = false;
-        const sync = () => {
-          const nav = document.querySelector('header');
-          if (nav) document.body.style.paddingTop = nav.getBoundingClientRect().height + 'px';
-          resizeScheduled = false;
-        };
-        const onResize = () => {
-          if (resizeScheduled) return;
-          resizeScheduled = true;
-          if (window.requestAnimationFrame) {
-            window.requestAnimationFrame(sync);
-          } else {
-            setTimeout(sync, 16);
-          }
-        };
-        window.addEventListener('resize', onResize);
-        window.addEventListener('load', sync);
       }
     });
 
