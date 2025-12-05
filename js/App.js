@@ -807,12 +807,14 @@
       });
     });
 
-    // Lenis smooth scrolling (optional)
+    // Lenis smooth scrolling (optional, kept very light/subtle)
     safe(() => {
       if (typeof window === 'undefined' || !window.Lenis) return;
       const lenis = new window.Lenis({
-        lerp: 0.08,
+        // Higher lerp = zyada responsive, kam floaty
+        lerp: 0.2,
         smoothWheel: true,
+        smoothTouch: false,
       });
 
       const raf = (time) => {
