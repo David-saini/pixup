@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PixUp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Poppins font (clean, geometric sans for UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- JSZip for creating ZIP downloads of compressed images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="assests/css/style.css" />
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="/favicon.svg">
+  </head>
+  <body class="bg-gray-900 text-gray-200 pt-20">
+    <!-- Sticky Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 site-nav-backdrop border-b border-gray-800">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="#hero" class="flex items-center gap-3">
+            <div class="logo-bg w-11 h-11 rounded-lg flex items-center justify-center text-white font-bold">P</div>
+            <div>
+              <span class="text-white font-semibold">PixUp</span>
+              <div class="text-xs text-gray-400">Image Compressor</div>
+            </div>
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          <nav class="hidden md:flex items-center gap-6 text-sm text-gray-200">
+            <a href="#hero" class="hover:text-white">Home</a>
+            <a href="#about" class="hover:text-white">About</a>
+            <a href="#how-it-works" class="hover:text-white">How it works</a>
+            <a href="#features" class="hover:text-white">Features</a>
+            <a href="#faqs" class="hover:text-white">FAQs</a>
+          </nav>
+          <button id="navToggle" class="md:hidden p-2 rounded-md hover:bg-gray-800/40" aria-label="Toggle menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-gray-200"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="md:hidden border-t border-gray-800">
+        <div class="px-4 py-3 space-y-2">
+          <a href="#hero" class="block text-gray-200">Home</a>
+          <a href="#about" class="block text-gray-200">About</a>
+          <a href="#how-it-works" class="block text-gray-200">How it works</a>
+          <a href="#features" class="block text-gray-200">Features</a>
+          <a href="#faqs" class="block text-gray-200">FAQs</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="max-w-6xl mx-auto px-7 mt-16 mb-12 text-gray-200">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="inline-flex items-center text-xs font-medium uppercase tracking-wide text-indigo-300 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-3 py-1 mb-3">
+            Fast & private image compression
+          </p>
+          <h1 class="text-3xl md:text-5xl font-semibold text-white leading-tight">
+            Shrink your images,
+            <span class="text-indigo-400">not your quality</span>.
+          </h1>
+          <p class="mt-4 text-sm md:text-base text-gray-400 max-w-xl">
+            Drag & drop photos, pick your format and quality, then download optimized files in seconds.
+            All processing starts in your browser, so your work stays on your device.
+          </p>
+           <p class="mt-2 text-sm md:text-base text-gray-400 max-w-xl">Fast, client-side compression. No files leave your browser.</p>
+                    
+          
+        </div>
+        <div class="hidden md:flex justify-end">
+          <div class="card-bg rounded-2xl px-5 py-4 max-w-sm w-full border border-gray-800/60 bg-gray-900/40" id="exampleCard">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="text-xs text-gray-400">Example result</p>
+                <p class="text-sm font-medium text-gray-100">JPEG to WebP</p>
+              </div>
+              <span id="exampleSavedBadge" class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/40" data-target-percent="73">-73% size</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-gray-400">
+              <div class="flex-1 space-y-1">
+                <div class="flex justify-between">
+                  <span>Original</span>
+                  <span id="exampleOriginalSize" data-target-value="3.4">3.4 MB</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-gray-800 overflow-hidden">
+                  <div id="exampleOriginalBar" class="h-full rounded-full bg-gray-500/70" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="flex-1 space-y-1">
+                <div class="flex justify-between">
+                  <span>Compressed</span>
+                  <span id="exampleCompressedSize" data-target-value="0.9">0.9 MB</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-gray-800 overflow-hidden">
+                  <div id="exampleCompressedBar" class="h-full rounded-full bg-emerald-400" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="compressor" class="max-w-6xl mx-auto px-7 mb-12 pt-4 md:pt-6">
+      <!-- Main Card -->
+      <div class="card-bg rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-[463px] h-auto">
+        <!-- Left Panel -->
+        <div class="p-6 border-r border-gray-800">
+          <!-- Drop Area -->
+          <div id="dropArea" class="drop-area rounded-xl px-4 py-4 flex flex-col items-center justify-center gap-2.5 cursor-pointer" title="Click or drop image here">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3v9" stroke="#0b79ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8 7l4-4 4 4" stroke="#0b79ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="3" y="13" width="18" height="7" rx="2" stroke="#cfe6ff" stroke-width="1.2" />
+            </svg>
+            <div class="font-semibold">Drop image here or click to browse</div>
+            <input id="fileInput" type="file" accept="image/*" class="hidden" multiple />
+          </div>
+
+          <!-- Controls -->
+          <div class="mt-3.5 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <label for="formatSelect" class="text-xs text-gray-300">Output format</label>
+              <span class="text-[11px] text-gray-400">Best for web: WebP / AVIF</span>
+            </div>
+
+            <!-- Custom themed dropdown -->
+            <div class="relative">
+              <button id="formatDropdownToggle" type="button" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-gray-900/70 border border-gray-800 text-sm text-gray-100 hover:border-purple-500/70 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/60 transition">
+                <span id="formatDropdownLabel" class="truncate">WebP (.webp)</span>
+
+                <svg class="w-4 h-4 text-gray-300 ml-2 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div id="formatDropdownMenu" class="absolute z-30 mt-1 w-full rounded-xl bg-slate-900/95 border border-slate-700/80 shadow-xl backdrop-blur-sm hidden">
+                <ul class="py-1 text-sm text-gray-100 max-h-56 overflow-y-auto">
+                  <li><button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 focus:bg-slate-800 text-[13px] format-dropdown-option" data-value="image/webp">WebP (.webp)</button></li>
+                  <li><button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 focus:bg-slate-800 text-[13px] format-dropdown-option" data-value="image/avif">AVIF (.avif)</button></li>
+                  <li><button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 focus:bg-slate-800 text-[13px] format-dropdown-option" data-value="image/jpeg">JPEG (.jpg/.jpeg)</button></li>
+                  <li><button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 focus:bg-slate-800 text-[13px] format-dropdown-option" data-value="image/png">PNG (.png)</button></li>
+                  <li><button type="button" class="w-full text-left px-3 py-2 hover:bg-slate-800 focus:bg-slate-800 text-[13px] format-dropdown-option" data-value="image/svg+xml">SVG (.svg)</button></li>
+                </ul>
+              </div>
+
+              <!-- Native select kept for JS logic, visually hidden -->
+              <select id="formatSelect" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none">
+                <option value="image/webp">WebP (.webp)</option>
+                <option value="image/avif">AVIF (.avif)</option>
+                <option value="image/jpeg">JPEG (.jpg/.jpeg)</option>
+                <option value="image/png">PNG (.png)</option>
+
+                <option value="image/svg+xml">SVG (.svg)</option>
+              </select>
+            </div>
+
+            <div class="text-xs text-gray-500 mt-2">Client-side supported formats: PNG, JPEG, WebP, AVIF, SVG.</div>
+
+            <!-- Quick format presets -->
+            <div class="mt-3">
+              <div class="text-xs text-gray-400 mb-1">Quick presets</div>
+              <div id="formatTiles" class="flex flex-wrap gap-2">
+                <button type="button" data-format="image/webp" class="format-tile px-3 py-1.5 rounded-full text-[11px] font-medium bg-gray-800/70 text-gray-100 border border-gray-700">WebP</button>
+                <button type="button" data-format="image/avif" class="format-tile px-3 py-1.5 rounded-full text-[11px] font-medium bg-gray-800/70 text-gray-100 border border-gray-700">AVIF</button>
+                <button type="button" data-format="image/jpeg" class="format-tile px-3 py-1.5 rounded-full text-[11px] font-medium bg-gray-800/70 text-gray-100 border border-gray-700">JPEG</button>
+                <button type="button" data-format="image/png" class="format-tile px-3 py-1.5 rounded-full text-[11px] font-medium bg-gray-800/70 text-gray-100 border border-gray-700">PNG</button>
+                <button type="button" data-format="image/svg+xml" class="format-tile px-3 py-1.5 rounded-full text-[11px] font-medium bg-gray-800/70 text-gray-100 border border-gray-700">SVG</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-3.5 flex flex-col gap-2 hidden">
+            <label for="qualityRange" class="text-xs text-gray-400">Quality <span id="qualityValue">0.80</span></label>
+            <input id="qualityRange" type="range" min="0.05" max="1" step="0.01" value="0.8" class="w-full" />
+          </div>
+
+          <div class="mt-3.5 flex flex-col gap-2 hidden">
+            <label for="maxWidth" class="text-xs text-gray-400">Max width (px)</label>
+            <input id="maxWidth" type="number" placeholder="auto" min="1" class="p-2.5 rounded-xl bg-gray-800/30 border border-gray-800 text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500/30" />
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col gap-2.5 mt-3">
+            <div class="flex gap-2.5">
+              <button id="compressBtn" disabled aria-disabled="true" class="primary-btn text-gray-900 px-3.5 py-2.5 rounded-xl border-0 cursor-not-allowed opacity-50 font-semibold">
+                Compress Selected
+              </button>
+              <a id="downloadLink" href="#" download class="download-btn text-gray-900 px-3.5 py-2.5 rounded-xl no-underline flex items-center gap-2 hidden">
+                Download
+              </a>
+              <button id="downloadAllBtn" class="ml-2 text-sm bg-indigo-600 text-white px-3 py-2 rounded-xl hidden">Download All (ZIP)</button>
+            </div>
+            <button
+              id="clearAllBtn"
+              type="button"
+              class="self-start px-3 py-1.5 rounded-lg border border-gray-700 text-xs text-gray-300 hover:text-red-300 hover:border-red-400 hover:bg-red-500/10 transition hidden"
+            >
+              Clear all images
+            </button>
+          </div>
+          <div id="batchSummary" class="text-sm text-gray-400 mt-2 hidden"></div>
+
+          <div class="text-xs text-gray-400 mt-2">Note: Animated GIFs will be flattened to a single frame.</div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="p-6 flex flex-col gap-3">
+          <div class="flex flex-col items-center gap-2.5">
+            <div class="w-full flex justify-between items-center">
+              <div class="text-sm text-gray-400" id="info">No file selected</div>
+              <div class="text-sm text-gray-400" id="status"></div>
+            </div>
+            <!-- Large before/after preview hidden (we only use small cards now) -->
+            <div class="flex gap-3 w-full items-center justify-center hidden">
+              <img id="previewBefore" src="" alt="Original preview" class="preview-img opacity-0 translate-y-2 max-w-[48%] rounded-xl" />
+              <img id="preview" src="" alt="Compressed preview" class="preview-img opacity-0 translate-y-2 max-w-[48%] rounded-xl" />
+            </div>
+            <!-- List for multiple previews: single column with internal scroll -->
+            <div id="previewGrid" class="flex flex-col gap-3 w-full mt-4 max-h-80 overflow-y-auto pr-1 custom-scroll"></div>
+
+            <progress id="overallProgress" value="0" max="100" class="w-full mt-3 hidden"></progress>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us -->
+    <section id="about" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <div class="bg-gray-900/40 p-8 rounded-2xl theme-panel">
+        <div class="mb-6 text-center">
+          <h2 class="text-3xl md:text-4xl font-semibold">About Us</h2>
+          <div class="mt-1 text-sm md:text-base text-gray-400">Know more about PixUp</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div>
+            <h3 class="text-lg font-semibold mb-2">What is PixUp?</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-2">
+              PixUp ek simple aur fast image compressor hai jo aapke browser ke andar hi
+              images ko optimize karta hai. Aap bina kisi signup ke apni photos ka size
+              kam kar sakte hain aur quality ko control bhi kar sakte hain.
+            </p>
+            <p class="text-sm text-gray-400 leading-relaxed mb-2">
+              Tool is tarah design kiya gaya hai ki beginners se lekar professionals tak
+              sabhi log easily use kar saken. Drag & drop interface, format selection aur
+              preview jaisi cheezen aapko poora control deti hain.
+            </p>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              PixUp mainly un logon ke liye helpful hai jo website, portfolio, social media
+              ya clients ke liye fast loading images chahte hain bina quality ko zyada
+              compromise kiye.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Why we built it</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-2">
+              Humne PixUp isliye banaya hai taaki designers, developers aur normal users
+              bina heavy software install kiye online hi images compress kar saken.
+              Privacy ko dhyan me rakhte hue processing mostly local hoti hai, jisse
+              aapke files secure rehte hain.
+            </p>
+            <p class="text-sm text-gray-400 leading-relaxed mb-2">
+              Hamara focus hai:
+              fast performance, clean UI, aur clear results (before/after comparison,
+              size reduction etc.) taaki aap har project ke liye ready assets bana saken.
+            </p>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Aage chal kar hum aur bhi formats, smart presets aur workflow features
+              (jaise team sharing, custom presets, aur advanced export options) add karne
+              ka plan rakhte hain.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features section -->
+    <section id="features" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <div class="bg-gray-900/40 p-8 rounded-2xl theme-panel">
+        <div class="mb-6 text-center">
+          <h2 class="text-3xl md:text-4xl font-semibold">Features</h2>
+          <div class="mt-1 text-sm md:text-base text-gray-400">What PixUp gives you</div>
+        </div>
+
+        <p class="text-gray-400 mb-6">Powerful image compression with privacy-first defaults and optional server conversion for advanced formats.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Card: Multiple formats -->
+          <article class="p-6 bg-gray-800/60 rounded-lg hover:shadow-lg transition group h-full" role="article" aria-labelledby="feat-formats" tabindex="0">
+            <div class="flex flex-col h-full items-start text-left gap-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white transform transition-transform group-hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-start gap-3">
+                  <h4 id="feat-formats" class="font-semibold">Multiple formats</h4>
+                  <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Core</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Export to WebP, AVIF, JPEG, PNG, TIFF and more — client or server-side.</p>
+              </div>
+              <div class="mt-3 text-sm"><a href="#" class="text-indigo-400 hover:underline">Learn more &rarr;</a></div>
+            </div>
+          </article>
+
+          <!-- Card: Batch processing -->
+          <article class="p-6 bg-gray-800/60 rounded-lg hover:shadow-lg transition group h-full" role="article" aria-labelledby="feat-batch" tabindex="0">
+            <div class="flex flex-col h-full items-start text-left gap-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white transform transition-transform group-hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M6 17h12" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-start gap-3">
+                  <h4 id="feat-batch" class="font-semibold">Batch processing</h4>
+                  <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Pro</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Upload many images and compress them in one go — download individually or as a ZIP.</p>
+              </div>
+              <div class="mt-3 text-sm"><a href="#" class="text-indigo-400 hover:underline">Learn more &rarr;</a></div>
+            </div>
+          </article>
+
+          <!-- Card: Preview & control -->
+          <article class="p-6 bg-gray-800/60 rounded-lg hover:shadow-lg transition group h-full" role="article" aria-labelledby="feat-preview" tabindex="0">
+            <div class="flex flex-col h-full items-start text-left gap-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white transform transition-transform group-hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A2 2 0 0122 9.618V18a2 2 0 01-2 2H4a2 2 0 01-2-2V9.618a2 2 0 012.447-1.894L11 10m4 0V6a2 2 0 10-4 0v4" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-start gap-3">
+                  <h4 id="feat-preview" class="font-semibold">Preview & control</h4>
+                  <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Interactive</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Compare before/after previews and adjust quality for perfect balance.</p>
+              </div>
+              <div class="mt-3 text-sm"><a href="#" class="text-indigo-400 hover:underline">Learn more &rarr;</a></div>
+            </div>
+          </article>
+
+          <!-- Card: Privacy-first -->
+          <article class="p-6 bg-gray-800/60 rounded-lg hover:shadow-lg transition group h-full" role="article" aria-labelledby="feat-privacy" tabindex="0">
+            <div class="flex flex-col h-full items-start text-left gap-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white transform transition-transform group-hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4l-4-4M21 21H3" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-start gap-3">
+                  <h4 id="feat-privacy" class="font-semibold">Privacy-first</h4>
+                  <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Local</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Files are processed locally by default — server conversion is optional for advanced formats.</p>
+              </div>
+              <div class="mt-3 text-sm"><a href="#" class="text-indigo-400 hover:underline">Learn more &rarr;</a></div>
+            </div>
+          </article>
+
+          <!-- Card: Server conversion -->
+          <article class="p-6 bg-gray-800/60 rounded-lg hover:shadow-lg transition group h-full" role="article" aria-labelledby="feat-server" tabindex="0">
+            <div class="flex flex-col h-full items-start text-left gap-4">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white transform transition-transform group-hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-start gap-3">
+                  <h4 id="feat-server" class="font-semibold">Server conversion</h4>
+                  <span class="text-xs bg-gray-800/40 px-2 py-0.5 rounded-full text-gray-300">Optional</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Optional server-side conversion for RAW, PSD and other advanced inputs when needed.</p>
+              </div>
+              <div class="mt-3 text-sm"><a href="#" class="text-indigo-400 hover:underline">Learn more &rarr;</a></div>
+            </div>
+          </article>
+        </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works - Roadmap (enhanced) -->
+    <section id="how-it-works" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+      <div class="bg-gradient-to-br from-gray-900/50 via-gray-800/40 to-gray-900/40 pr-8 py-8 pl-5 rounded-2xl theme-panel">
+        <div class="mb-6 text-center">
+          <h2 class="text-3xl md:text-4xl font-semibold">How it works</h2>
+          <div class="mt-1 text-sm md:text-base text-gray-400">A visual, step-by-step guide</div>
+        </div>
+
+          <ul class="space-y-8 ml-0">
+            <!-- Step 1 -->
+            <li class="relative animate-pop">
+              <div class="flex items-start gap-6">
+                <div class="relative flex-shrink-0">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-semibold roadmap-dot ring-4 ring-gray-900/40 relative z-20">
+                    <!-- upload icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12V3m0 0L8 7m4-4 4 4" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="flex-1 bg-gray-800/60 p-4 rounded-lg hover:shadow-lg transition-shadow duration-200 transform hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-lg">Add images</h3>
+                    <span class="text-xs text-gray-400">Instant</span>
+                  </div>
+                  <p class="text-sm text-gray-400 mt-2">Drag & drop or click to add photos. We preview them locally so you can check before converting.</p>
+                </div>
+              </div>
+            </li>
+
+            <!-- Step 2 -->
+            <li class="relative animate-pop">
+              <div class="flex items-start gap-6">
+                <div class="relative flex-shrink-0">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-semibold roadmap-dot ring-4 ring-gray-900/40 relative z-20">
+                    <!-- settings icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82L4.21 6.1A2 2 0 116.1 3.21l.06.06a1.65 1.65 0 001.82.33H8a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09c.12.6.52 1.11 1 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06A2 2 0 1118.72 6.3l-.06.06a1.65 1.65 0 00-.33 1.82V9c.48.4.88.91 1 1.51H21a2 2 0 110 4h-.09c-.6.12-1.11.52-1.51 1z" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="flex-1 bg-gray-800/60 p-4 rounded-lg hover:shadow-lg transition-shadow duration-200 transform hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-lg">Choose format & options</h3>
+                    <span class="text-xs text-gray-400">Flexible</span>
+                  </div>
+                  <p class="text-sm text-gray-400 mt-2">Select output format and quality, or set a max width to reduce filesize while keeping visual fidelity.</p>
+                </div>
+              </div>
+            </li>
+
+            <!-- Step 3 -->
+            <li class="relative animate-pop">
+              <div class="flex items-start gap-6">
+                <div class="relative flex-shrink-0">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white font-semibold roadmap-dot ring-4 ring-gray-900/40 relative z-20">
+                    <!-- preview icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A2 2 0 0122 9.618V18a2 2 0 01-2 2H4a2 2 0 01-2-2V9.618a2 2 0 012.447-1.894L11 10m4 0V6a2 2 0 10-4 0v4" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="flex-1 bg-gray-800/60 p-4 rounded-lg hover:shadow-lg transition-shadow duration-200 transform hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-lg">Preview & tweak</h3>
+                    <span class="text-xs text-gray-400">Before / After</span>
+                  </div>
+                  <p class="text-sm text-gray-400 mt-2">Compare the original and compressed preview. Tweak quality until you're happy with the result.</p>
+                </div>
+              </div>
+            </li>
+
+            <!-- Step 4 -->
+            <li class="relative animate-pop">
+              <div class="flex items-start gap-6">
+                <div class="relative flex-shrink-0">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-semibold roadmap-dot ring-4 ring-gray-900/40 relative z-20">
+                    <!-- server icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M6 17h12" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="flex-1 bg-gray-800/60 p-4 rounded-lg hover:shadow-lg transition-shadow duration-200 transform hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-lg">Compress (client or server)</h3>
+                    <span class="text-xs text-gray-400">Fast</span>
+                  </div>
+                  <p class="text-sm text-gray-400 mt-2">We use in-browser canvas for quick results. For advanced formats, our server provides high-quality conversions.</p>
+                </div>
+              </div>
+            </li>
+
+            <!-- Step 5 -->
+            <li class="relative animate-pop">
+              <div class="flex items-start gap-6">
+                <div class="relative flex-shrink-0">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white font-semibold roadmap-dot ring-4 ring-gray-900/40 relative z-20">
+                    <!-- download icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4l-4-4M21 21H3" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="flex-1 bg-gray-800/60 p-4 rounded-lg hover:shadow-lg transition-shadow duration-200 transform hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-lg">Download & share</h3>
+                    <span class="text-xs text-gray-400">Done</span>
+                  </div>
+                  <p class="text-sm text-gray-400 mt-2">Download single files or a ZIP of the batch. Files are private unless you choose server conversion.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+      <!-- FAQs -->
+      <section id="faqs" class="section-theme max-w-6xl mx-auto text-gray-200 px-7">
+        <div class="bg-gray-900/40 p-8 rounded-2xl theme-panel">
+          <div class="mb-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-semibold">FAQs</h2>
+            <div class="mt-1 text-sm md:text-base text-gray-400">Common questions & answers</div>
+          </div>
+
+          <div class="space-y-4">
+            <details class="" open>
+              <summary class="faq-summary">
+                <span class="font-medium">Which formats are supported?</span>
+                <svg class="chev w-4 h-4 text-gray-300 ml-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="faq-body faq-content">
+                <p class="text-sm text-gray-400 mt-2">PixUp supports common web and photo formats including PNG, JPEG, WebP, AVIF, GIF, TIFF and more. Some RAW, PSD, EPS and other proprietary files may be converted server‑side or via additional tools.</p>
+              </div>
+            </details>
+
+            <details class="">
+              <summary class="faq-summary">
+                <span class="font-medium">Are my files uploaded to your server?</span>
+                <svg class="chev w-4 h-4 text-gray-300 ml-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="faq-body faq-content">
+                <p class="text-sm text-gray-400 mt-2">By default, image compression happens locally in your browser and files remain on your device. Server conversion is optional and only used for formats that cannot be handled client-side.</p>
+              </div>
+            </details>
+
+            <details class="">
+              <summary class="faq-summary">
+                <span class="font-medium">What are the file size limits?</span>
+                <svg class="chev w-4 h-4 text-gray-300 ml-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="faq-body faq-content">
+                <p class="text-sm text-gray-400 mt-2">Browser-based processing is limited by your device and browser memory. For very large RAW or multi‑frame images, use the optional server conversion which can handle larger files (subject to server limits).</p>
+              </div>
+            </details>
+
+            <details class="">
+              <summary class="faq-summary">
+                <span class="font-medium">How do I get the best quality vs size?</span>
+                <svg class="chev w-4 h-4 text-gray-300 ml-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="faq-body faq-content">
+                <p class="text-sm text-gray-400 mt-2">Start with WebP or AVIF for excellent compression. Use the quality slider and preview to balance size against visible artifacts. For photos, 70–85% quality often gives a good tradeoff.</p>
+              </div>
+            </details>
+
+            <details class="">
+              <summary class="faq-summary">
+                <span class="font-medium">Troubleshooting: upload or preview issues</span>
+                <svg class="chev w-4 h-4 text-gray-300 ml-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="faq-body faq-content">
+                <p class="text-sm text-gray-400 mt-2">If a file fails to preview or convert, try a different browser, reduce the image dimensions, or use the server conversion option. Check the console for errors and reach out via the Contact link if problems persist.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+    <!-- Site Footer -->
+    <footer class="site-footer mt-12 border-t border-gray-800 text-gray-300">
+      <div class="max-w-6xl mx-auto px-7 py-10">
+        <div class="card-bg rounded-2xl px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+          <!-- Left box: brand + description -->
+          <div>
+            <a href="#hero" class="inline-flex items-center gap-3 mb-3">
+              <div class="logo-bg w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold">P</div>
+              <span class="text-white font-semibold text-sm">PixUp</span>
+            </a>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-xs">PixUp compresses images locally in your browser. Fast, private and easy to use.</p>
+          </div>
+
+          <!-- Right box: navigation columns with space-between -->
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 md:gap-10 max-w-6xl">
+            <div>
+              <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Quick links</h4>
+              <ul class="text-sm text-gray-400 space-y-1.5">
+                <li><a href="#hero" class="hover:text-white">Home</a></li>
+                <li><a href="#about" class="hover:text-white">About</a></li>
+                <li><a href="#how-it-works" class="hover:text-white">How it works</a></li>
+                <li><a href="#features" class="hover:text-white">Features</a></li>
+                <li><a href="#faqs" class="hover:text-white">FAQs</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Legal</h4>
+              <ul class="text-sm text-gray-400 space-y-1.5">
+                <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
+                <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-3 mt-6 pt-4 border-t border-gray-800/80 text-xs md:text-sm text-gray-500">
+          <span>&copy; <span data-current-year>2025</span> PixUp. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/App.js"></script>
+  </body>
+</html>

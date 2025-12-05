@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PixUp • Terms of Use</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assests/css/style.css" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <style>
+      body { font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans"; }
+      body { background: linear-gradient(180deg,#071022,#07151f); }
+      .site-nav-backdrop { backdrop-filter: blur(6px); background-color: rgba(8,10,20,0.55); }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-200 pt-20">
+    <!-- Sticky Navbar (same as home, but links point to index.html sections) -->
+    <header class="fixed top-0 left-0 right-0 z-50 site-nav-backdrop border-b border-gray-800">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="index.html#hero" class="flex items-center gap-3">
+            <div class="logo-bg w-11 h-11 rounded-lg flex items-center justify-center text-white font-bold">P</div>
+            <div>
+              <span class="text-white font-semibold">PixUp</span>
+              <div class="text-xs text-gray-400">Image Compressor</div>
+            </div>
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          <nav class="hidden md:flex items-center gap-6 text-sm text-gray-200">
+            <a href="index.html#hero" class="hover:text-white">Home</a>
+            <a href="index.html#about" class="hover:text-white">About</a>
+            <a href="index.html#how-it-works" class="hover:text-white">How it works</a>
+            <a href="index.html#features" class="hover:text-white">Features</a>
+            <a href="index.html#faqs" class="hover:text-white">FAQs</a>
+          </nav>
+          <button id="navToggle" class="md:hidden p-2 rounded-md hover:bg-gray-800/40" aria-label="Toggle menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-gray-200"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="md:hidden hidden border-t border-gray-800">
+        <div class="px-4 py-3 space-y-2">
+          <a href="index.html#hero" class="block text-gray-200">Home</a>
+          <a href="index.html#about" class="block text-gray-200">About</a>
+          <a href="index.html#how-it-works" class="block text-gray-200">How it works</a>
+          <a href="index.html#features" class="block text-gray-200">Features</a>
+          <a href="index.html#faqs" class="block text-gray-200">FAQs</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 pt-10 pb-16">
+      <section class="bg-gray-900/50 border border-gray-800 rounded-2xl p-7 mt-6">
+        <h1 class="text-3xl font-semibold text-white mb-2">Terms of Use</h1>
+        <p class="text-sm text-gray-400 mb-6">Last updated: <span class="text-gray-300">December 2025</span></p>
+
+        <p class="text-sm text-gray-300 mb-4">Ye page batata hai ki PixUp tool ko use karte waqt aap kin basic terms ke under operate kar rahe hain.</p>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">1. Non-commercial / demo use</h2>
+        <p class="text-sm text-gray-300 mb-2">Ye project primarily demo / learning purpose ke liye bana hai. Agar aap isse production me use karna chahte hain, to apne risk par use karein aur terms ko according to apne use-case customize karein.</p>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">2. No warranty</h2>
+        <ul class="text-sm text-gray-300 space-y-2 ml-4 list-disc">
+          <li>Tool "as-is" provide kiya ja raha hai.</li>
+          <li>Hum accuracy, uptime ya kisi specific result ki guarantee nahi dete.</li>
+          <li>Images loss ya corruption ke liye aapko apna backup rakhna chahiye.</li>
+        </ul>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">3. Allowed use</h2>
+        <ul class="text-sm text-gray-300 space-y-2 ml-4 list-disc">
+          <li>Aap apne personal ya client projects ke images optimize kar sakte hain.</li>
+          <li>Illegal content, copyright infringing material ya harmful files process karna allowed nahi hai.</li>
+        </ul>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">4. Third-party libraries</h2>
+        <p class="text-sm text-gray-300 mb-2">PixUp kuch open-source libraries use karta hai (jaise Tailwind CSS, JSZip, wagaira). In libraries ke apne licenses hote hain, jinko aapko unke repos par dekhna chahiye.</p>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">5. Changes to terms</h2>
+        <p class="text-sm text-gray-300 mb-2">Aap apne deployment ke liye in terms ko kabhi bhi update/edit kar sakte hain. Users ko clearly latest version dikhana aapki responsibility hogi.</p>
+
+        <h2 class="text-lg font-semibold text-white mt-6 mb-2">6. Contact</h2>
+        <p class="text-sm text-gray-300">Agar aap in terms ko real production app ke liye use karna chahte hain, to please ek qualified legal professional se consult karke text ko customize karein.</p>
+      </section>
+    </main>
+
+    <!-- Site Footer (same as home) -->
+    <footer class="site-footer mt-12 border-t border-gray-800 text-gray-300">
+      <div class="max-w-6xl mx-auto px-7 py-10">
+        <div class="card-bg rounded-2xl px-6 py-8 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10 items-start">
+          <div>
+            <a href="index.html#hero" class="inline-flex items-center gap-3 mb-3">
+              <div class="logo-bg w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold">P</div>
+              <span class="text-white font-semibold text-sm">PixUp</span>
+            </a>
+            <p class="text-gray-400 text-sm leading-relaxed max-w-xs">PixUp compresses images locally in your browser. Fast, private and easy to use.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Quick links</h4>
+            <ul class="text-sm text-gray-400 space-y-1.5">
+              <li><a href="index.html#hero" class="hover:text-white">Home</a></li>
+              <li><a href="index.html#about" class="hover:text-white">About</a></li>
+              <li><a href="index.html#how-it-works" class="hover:text-white">How it works</a></li>
+              <li><a href="index.html#features" class="hover:text-white">Features</a></li>
+              <li><a href="index.html#faqs" class="hover:text-white">FAQs</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Resources</h4>
+            <ul class="text-sm text-gray-400 space-y-1.5">
+              <li><a href="#" class="hover:text-white">Documentation</a></li>
+              <li><a href="#" class="hover:text-white">GitHub</a></li>
+              <li><a href="#" class="hover:text-white">Report an issue</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3 text-sm tracking-wide text-gray-200 uppercase">Contact</h4>
+            <p class="text-sm text-gray-400">support@pixup.local</p>
+            <div class="flex gap-2 mt-4">
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-200 transition">F</a>
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-200 transition">T</a>
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 flex items-center justify-center text-xs font-medium text-gray-200 transition">I</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-between gap-3 mt-6 pt-4 border-t border-gray-800/80 text-xs md:text-sm text-gray-500">
+          <span>&copy; <span data-current-year>2025</span> PixUp. All rights reserved.</span>
+          <span class="flex gap-4">
+            <a href="privacy.html" class="hover:text-gray-300">Privacy</a>
+            <a href="terms.html" class="hover:text-gray-300">Terms</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/App.js"></script>
+  </body>
+</html>

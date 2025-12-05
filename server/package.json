@@ -1,0 +1,15 @@
+{
+  "name": "pixup-convert-server",
+  "version": "1.0.0",
+  "description": "Small conversion server for PixUp using sharp",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.32.5"
+  }
+}
