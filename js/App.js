@@ -691,9 +691,22 @@
 
     // UI helpers (quality display + button state)
     safe(() => {
-      const sync = () => { if (qualityRange && qualityValue) qualityValue.textContent = Number(qualityRange.value).toFixed(2); };
-      const setState = dis => { if (!compressBtn) return; compressBtn.disabled = !!dis; compressBtn.setAttribute('aria-disabled', !!dis); compressBtn.classList.toggle('cursor-not-allowed', !!dis); compressBtn.classList.toggle('opacity-50', !!dis); compressBtn.classList.toggle('cursor-pointer', !dis); compressBtn.classList.toggle('opacity-100', !dis); };
-      sync(); setState(!(fileInput && fileInput.files && fileInput.files.length > 0)); if (qualityRange) qualityRange.addEventListener('input', sync); if (fileInput) fileInput.addEventListener('change', () => setState(!(fileInput.files && fileInput.files.length > 0)));
+      const sync = () => {
+        if (qualityRange && qualityValue) qualityValue.textContent = Number(qualityRange.value).toFixed(2);
+      };
+      const setState = (dis) => {
+        if (!compressBtn) return;
+        compressBtn.disabled = !!dis;
+        compressBtn.setAttribute('aria-disabled', !!dis);
+        compressBtn.classList.toggle('cursor-not-allowed', !!dis);
+        compressBtn.classList.toggle('opacity-50', !!dis);
+        compressBtn.classList.toggle('cursor-pointer', !dis);
+        compressBtn.classList.toggle('opacity-100', !dis);
+      };
+      sync();
+      setState(!(fileInput && fileInput.files && fileInput.files.length > 0));
+      if (qualityRange) qualityRange.addEventListener('input', sync);
+      if (fileInput) fileInput.addEventListener('change', () => setState(!(fileInput.files && fileInput.files.length > 0)));
     });
 
     // Custom output format dropdown + tiles: click to select
@@ -715,10 +728,11 @@
       const openMenu = () => { menu.classList.remove('hidden'); };
 
       toggle.addEventListener('click', () => {
-        if (menu.classList.contains('hidden')) openMenu(); else closeMenu();
+        if (menu.classList.contains('hidden')) openMenu();
+        else closeMenu();
       });
 
-      opts.forEach(btn => {
+      opts.forEach((btn) => {
         btn.addEventListener('click', () => {
           const v = btn.getAttribute('data-value');
           if (!v) return;
@@ -736,9 +750,8 @@
 
       select.addEventListener('change', () => {
         syncLabelFromSelect();
-        // highlight tile matching current value
         const value = select.value;
-        tiles.forEach(x => {
+        tiles.forEach((x) => {
           const fmt = x.getAttribute('data-format');
           x.classList.toggle('bg-green-600', fmt === value);
           x.classList.toggle('text-white', fmt === value);
@@ -750,7 +763,7 @@
 
       // tiles click: update select (and label via change listener)
       if (tiles && tiles.length) {
-        tiles.forEach(t => t.addEventListener('click', () => {
+        tiles.forEach((t) => t.addEventListener('click', () => {
           const fmt = t.getAttribute('data-format');
           if (!fmt) return;
           select.value = fmt;
@@ -764,7 +777,30 @@
       const yearEls = document.querySelectorAll('[data-current-year]');
       if (!yearEls || !yearEls.length) return;
       const y = new Date().getFullYear();
-      yearEls.forEach(el => { el.textContent = y; });
+      yearEls.forEach((el) => { el.textContent = y; });
+    });
+
+    // Back to top button
+    safe(() => {
+      const btn = document.getElementById('backToTopBtn');
+      if (!btn) return;
+
+      const toggleVisibility = () => {
+        if (window.scrollY > 300) {
+          btn.classList.remove('hidden');
+          btn.classList.add('flex');
+        } else {
+          btn.classList.add('hidden');
+          btn.classList.remove('flex');
+        }
+      };
+
+      window.addEventListener('scroll', toggleVisibility, { passive: true });
+      toggleVisibility();
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     });
 
     // FAQ accordion: ensure only one is open at a time, animate open/close, and keep chevrons on the right
@@ -774,7 +810,7 @@
       const items = Array.from(container.querySelectorAll('details'));
       if (!items.length) return;
 
-      items.forEach(d => {
+      items.forEach((d) => {
         const body = d.querySelector('.faq-body');
         if (body) {
           body.style.overflow = 'hidden';
@@ -789,23 +825,28 @@
         }
 
         d.addEventListener('toggle', () => {
+          const bodyInner = d.querySelector('.faq-body');
           if (d.open) {
-            // close others
-            items.forEach(o => {
+            items.forEach((o) => {
               if (o !== d && o.open) {
                 o.open = false;
                 const ob = o.querySelector('.faq-body');
-                if (ob) { ob.style.maxHeight = '0'; ob.style.opacity = '0'; }
+                if (ob) {
+                  ob.style.maxHeight = '0';
+                  ob.style.opacity = '0';
+                }
               }
             });
-            // open this one (animate to its scrollHeight)
-            if (body) { body.style.maxHeight = body.scrollHeight + 'px'; body.style.opacity = '1'; }
-          } else {
-            if (body) { body.style.maxHeight = '0'; body.style.opacity = '0'; }
+            if (bodyInner) {
+              bodyInner.style.maxHeight = bodyInner.scrollHeight + 'px';
+              bodyInner.style.opacity = '1';
+            }
+          } else if (bodyInner) {
+            bodyInner.style.maxHeight = '0';
+            bodyInner.style.opacity = '0';
           }
         });
       });
     });
   })();
-
 })();
